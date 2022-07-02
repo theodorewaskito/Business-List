@@ -1,14 +1,17 @@
 # business-project
 
-This template should help get you started developing with Vue 3 in Vite.
+## Tech Stack
+```
+Languange: HTML, CSS, Javascript
+Framework: VueJS, Bootstrap
+Library: axios
 
-## Recommended IDE Setup
+VueJS is a mandatory framework / library, and VueJS is a stack that is easy and fast to initialize and use
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Bootstrap is one of the css templating frameworks which I think is good and the documentation is easy to read, the contents are complete
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Axios, for axios itself it's actually just because I'm more familiar
+```
 
 ## Project Setup
 
