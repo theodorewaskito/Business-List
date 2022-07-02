@@ -1,18 +1,55 @@
-<script setup>
+<script>
   import Card from '../components/Card.vue'
+  import Category from '../components/Category.vue'
+
+  export default ({
+    name: 'HomeView',
+    props: ['dataBusiness', 'dataCategory', 'page', 'search'],
+    components: {
+      Card,
+      Category
+    },
+    data() {
+      return {
+        inputSearch: this.search
+      }
+    },
+    methods: {
+      newPage(page) {
+        let payload = {
+          page: page
+        }
+        this.$emit("getBusinessDataByPage", payload)
+      },
+      formSearch() {
+        this.$emit('getBusinessDataBySearch', {
+          search: this.inputSearch
+        })
+      }
+    }
+  })
 </script>
 
 <template>
   <div >
     <div class="row">
       <div class="col-10">
-        <div class="input-group mb-3">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-            <i class="bi bi-search"></i>
-          </button>
-          <input type="text" class="form-control" placeholder="Cari nama bisnis" aria-label="Recipient's username" aria-describedby="button-addon2" style="background-color: #f1f5f9">
-
-        </div>
+        <form @submit.prevent="formSearch">
+          <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+              <i class="bi bi-search"></i>
+            </button>
+            <input 
+              v-model="inputSearch"
+              type="text" 
+              class="form-control" 
+              placeholder="Cari nama bisnis" 
+              aria-label="Recipient's username" 
+              aria-describedby="button-addon2" 
+              style="background-color: #f1f5f9"
+            >
+          </div>
+        </form>
       </div>
       <div class="col-2">
         <button 
@@ -25,37 +62,65 @@
           Kategori
         </button>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog  modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p style="color: #c3c8cf">Kategori Bisnis</p>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Default radio
-                  </label>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" style="width: 100%">Terapkan</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Category
+          :dataCategory="dataCategory"
+        />
 
       </div>
     </div>
     
     
 
-    <Card/>  
+    <Card
+      :dataBusiness="dataBusiness"
+    />  
 
-    <!-- <p>Test</p> -->
+    <div class="d-flex justify-content-between my-4">
+
+      <div
+        v-if="this.page === 1"
+      >
+        <p >Halaman 1 dari 3</p>      
+      </div>
+      <div
+        v-if="this.page === 2"
+      >
+        <p >Halaman 2 dari 3</p>      
+      </div>
+      <div
+        v-if="this.page === 3"
+      >
+        <p >Halaman 3 dari 3</p>      
+      </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <!-- <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li> -->
+          <li 
+            class="page-item"
+            @click.prevent="newPage(1)"
+          ><button class="page-link">1</button></li>
+          <li 
+            class="page-item"
+            @click.prevent="newPage(2)"
+          ><button class="page-link">2</button></li>
+          <li 
+            class="page-item"
+            @click.prevent="newPage(3)"
+          ><button class="page-link">3</button></li>
+          <!-- <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li> -->
+        </ul>
+      </nav>
+
+    </div>
 
   </div>
 

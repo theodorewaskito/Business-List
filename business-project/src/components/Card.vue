@@ -1,9 +1,33 @@
+<script>
+
+export default ({
+  name: "Card",
+  props: ['dataBusiness',],
+
+})
+
+// console.log(data);
+</script>
+
+
 <template>
-  <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  <div class="row">
+    <div 
+      class="col-4"
+      v-for="data in dataBusiness"
+      :key="data.id" 
+    >
+      <div
+        class="card m-3 p-3"  
+        style="height: 300px"
+      >
+        <img :src=data.logoUrl class="card-img-top p-3 card" alt="logo">
+        <div class="card-body d-flex flex-column bd-highlight mb-3">
+          <p class="card-title bd-highlight"><b>{{data.businessName}}</b></p>
+          <p class="card-text mt-auto bd-highlight" style="color: grey">{{data.businessCategoryName}}</p>
+        </div>
+      </div>
     </div>
   </div>
+
 </template>
