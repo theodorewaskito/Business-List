@@ -12,7 +12,8 @@
         dataCategory: [],
         dataBusinessbyCategory: [],
         page: 0,
-        name: ''
+        name: '',
+        category: []
       } 
     },
 
@@ -34,6 +35,7 @@
         })
           .then(({data}) => {
             this.dataBusiness = data.data.content
+            this.page = data.data.pageable.pageNumber + 1
             console.log(this.dataBusiness);
           })
           .catch((err) => {
@@ -109,13 +111,41 @@
             console.log(err.response.data);
           })
       },
+
+      getBusinessDataByCategory(payload) {
+        const {category} = payload
+        axios({
+          method: "post",
+          url: "/business/parent/all",
+          headers: {
+            "Accept-Language" : "id",
+            "Content-Type": "application/json"
+          },
+          data: {
+            "businessName": "string",
+            "size": 12,
+            "page": 1,
+            "listCategory": category
+          }
+        })
+          .then(({data}) => {
+            this.dataBusiness = data.data.content
+            this.category = category
+            this.page = 1
+          })    
+          .catch((err) => {
+            console.log(err.response.data);
+          })
+      },
     },
 
     created() {
-      if (this.page === 0 && this.businessName === "string") {
+      if (this.page === 0 && this.businessName === "string" && this.listCategory === []) {
         this.getBusinessData()
       } else if (this.businessName !== "string") {
         this.getBusinessDataBySearch(this.name)
+      } else if (this.category !== []) {
+        this.getBusinessDataByCategory(this.category)
       } else {
         this.getBusinessDataByPage(this.page)
       }
@@ -142,6 +172,7 @@
       :page="page"
       @getBusinessDataByPage="getBusinessDataByPage"
       @getBusinessDataBySearch="getBusinessDataBySearch"
+      @getBusinessDataByCategory="getBusinessDataByCategory"
     />
   </div>
 

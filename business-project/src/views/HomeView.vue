@@ -1,17 +1,16 @@
 <script>
   import Card from '../components/Card.vue'
-  import Category from '../components/Category.vue'
 
   export default ({
     name: 'HomeView',
     props: ['dataBusiness', 'dataCategory', 'page', 'search'],
     components: {
-      Card,
-      Category
+      Card
     },
     data() {
       return {
-        inputSearch: this.search
+        inputSearch: this.search,
+        inputCategory: []
       }
     },
     methods: {
@@ -24,6 +23,12 @@
       formSearch() {
         this.$emit('getBusinessDataBySearch', {
           search: this.inputSearch
+        })
+      },
+      formCategory() {
+        // console.log('testi', this.inputCategory);
+        this.$emit('getBusinessDataByCategory', {
+          category: this.inputCategory
         })
       }
     }
@@ -62,9 +67,33 @@
           Kategori
         </button>
 
-        <Category
-          :dataCategory="dataCategory"
-        />
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-scrollable">
+            <form class="modal-content" @submit.prevent="formCategory">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="mb-3" style="color: #c3c8cf">Kategori Bisnis</p>
+                <div 
+                  v-for="data in dataCategory"
+                  :key="data.paramCode" 
+                >
+                  <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" :value=data.paramCode :id=data.paramCode v-model="inputCategory">
+                    <label class="form-check-label" :for=data.paramCode>
+                      {{data.paramName}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" style="width: 100%" data-bs-dismiss="modal">Terapkan</button>
+              </div>
+            </form>
+          </div>
+        </div>
 
       </div>
     </div>
